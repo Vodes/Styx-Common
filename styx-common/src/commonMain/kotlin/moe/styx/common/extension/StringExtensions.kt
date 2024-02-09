@@ -6,7 +6,7 @@ infix fun String?.eqI(other: String?): Boolean {
     return this.equals(other, true)
 }
 
-fun String.capitalize(): String = lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+fun String.capitalize(): String = lowercase().replaceFirstChar { it.uppercaseChar() }
 
 fun String.replaceAll(replacement: String, vararg values: String, ignoreCase: Boolean = true): String {
     var new = this
