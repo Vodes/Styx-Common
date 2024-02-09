@@ -2,7 +2,9 @@ package moe.styx.common.http
 
 import io.ktor.client.*
 import io.ktor.client.plugins.*
+import io.ktor.client.plugins.compression.*
 import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.cookies.*
 import moe.styx.common.json
 
 private var initializedHttpClient: HttpClient? = null
@@ -20,6 +22,8 @@ fun getHttpClient(userAgent: String? = null): HttpClient {
         install(ContentNegotiation) {
             json
         }
+        install(ContentEncoding)
+        install(HttpCookies)
     }
     return initializedHttpClient as HttpClient
 }

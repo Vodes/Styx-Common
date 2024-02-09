@@ -36,6 +36,7 @@ kotlin {
 
                 implementation(libs.ktor.client.contentNegotiation)
                 implementation(libs.ktor.client.serialization.json)
+                implementation(libs.ktor.client.encoding)
                 implementation(libs.string.similarity)
             }
         }
