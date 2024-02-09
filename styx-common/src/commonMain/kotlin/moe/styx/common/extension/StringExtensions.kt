@@ -16,11 +16,12 @@ fun String.replaceAll(replacement: String, vararg values: String, ignoreCase: Bo
     return new
 }
 
-fun String?.equalsAny(vararg values: String, ignoreCase: Boolean = true): Boolean {
+fun String?.equalsAny(vararg values: String, ignoreCase: Boolean = true, trim: Boolean = false): Boolean {
     if (this == null)
         return false
     for (value in values) {
-        if (this.equals(value, ignoreCase))
+        val thisString = if (trim) this.trim() else this
+        if (thisString.equals(if (trim) value.trim() else value, ignoreCase))
             return true
     }
     return false
@@ -32,6 +33,10 @@ fun String.containsAny(vararg values: String, ignoreCase: Boolean = true): Boole
             return true
     }
     return false
+}
+
+fun String.equalsAny(strings: List<String>, trim: Boolean = true, ignoreCase: Boolean = true): Boolean {
+    return equalsAny(*strings.toTypedArray(), trim = trim, ignoreCase = ignoreCase)
 }
 
 /**
