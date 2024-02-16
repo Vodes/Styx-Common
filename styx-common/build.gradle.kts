@@ -59,9 +59,36 @@ kotlin {
 }
 
 android {
-    namespace = "org.jetbrains.kotlinx.multiplatform.library.template"
+    namespace = "moe.styx.styx-common"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "Styx"
+            url = if (version.toString().contains("-SNAPSHOT", true))
+                uri("https://repo.styx.moe/snapshots")
+            else
+                uri("https://repo.styx.moe/releases")
+            credentials {
+                username = System.getenv("STYX_REPO_TOKEN")
+                password = System.getenv("STYX_REPO_SECRET")
+            }
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
+    }
+    publications {
+        val build = if (version.toString().contains("-SNAPSHOT", true)) "snapshot" else "release"
+        create<MavenPublication>(build) {
+            groupId = project.group.toString()
+            artifactId = "styx-common"
+            version = project.version.toString()
+        }
     }
 }
