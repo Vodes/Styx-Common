@@ -59,7 +59,7 @@ kotlin {
 }
 
 android {
-    namespace = "moe.styx.styx-common"
+    namespace = "moe.styx.common"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
