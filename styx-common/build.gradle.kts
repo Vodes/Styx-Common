@@ -83,12 +83,4 @@ publishing {
             }
         }
     }
-    publications {
-        val build = if (version.toString().contains("-SNAPSHOT", true)) "snapshot" else "release"
-        create<MavenPublication>(build) {
-            groupId = project.group.toString()
-            artifactId = "styx-common"
-            version = project.version.toString()
-        }
-    }
 }
