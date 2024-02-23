@@ -1,8 +1,7 @@
 package moe.styx.common
 
-actual val current: Platform
-    get() = Platform.ANDROID
-
 actual fun isWindows(): Boolean {
     return false
 }
+
+internal actual fun Platform.Companion.currentPlatform(): Platform = Platform.ANDROID

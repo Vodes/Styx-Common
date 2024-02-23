@@ -3,9 +3,14 @@ package moe.styx.common
 enum class Platform {
     JVM,
     ANDROID,
-    IOS
+    IOS;
+
+    companion object {
+        val current: Platform
+            get() = currentPlatform()
+    }
 }
 
-expect val current: Platform
+internal expect fun Platform.Companion.currentPlatform(): Platform
 
 expect fun isWindows(): Boolean
