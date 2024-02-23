@@ -2,17 +2,16 @@ package moe.styx.common.util
 
 import kotlinx.coroutines.*
 
-fun launchThreaded(run: suspend CoroutineScope.() -> Unit): CoroutineScope {
+fun launchThreaded(run: suspend CoroutineScope.() -> Unit): Job {
     val scope = CoroutineScope(Dispatchers.IO)
-    scope.launch {
+    return scope.launch {
         run()
     }
-    return scope
 }
 
 @OptIn(DelicateCoroutinesApi::class)
-fun launchGlobal(run: suspend CoroutineScope.() -> Unit) {
-    GlobalScope.launch {
+fun launchGlobal(run: suspend CoroutineScope.() -> Unit): Job {
+    return GlobalScope.launch {
         run()
     }
 }
