@@ -2,6 +2,8 @@ package moe.styx.common.extension
 
 import moe.styx.common.isWindows
 
+val uselessEPTitleRegex = "^(?:Folge|Episode) \\d+\$".toRegex(RegexOption.IGNORE_CASE)
+
 infix fun String?.eqI(other: String?): Boolean {
     return this.equals(other, true)
 }
