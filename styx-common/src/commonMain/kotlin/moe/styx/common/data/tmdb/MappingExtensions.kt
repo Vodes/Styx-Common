@@ -14,7 +14,7 @@ fun Media.decodeMapping(): MappingCollection? {
     }
 }
 
-fun MappingCollection?.orEmpty() = MappingCollection()
+fun MappingCollection?.orEmpty() = this ?: MappingCollection()
 
 fun Media.getFirstIDFromMap(type: StackType): Int? {
     val mappingJson = decodeMapping() ?: return null
