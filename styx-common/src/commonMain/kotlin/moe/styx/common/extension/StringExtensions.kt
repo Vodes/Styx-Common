@@ -51,7 +51,7 @@ fun String.equalsAny(strings: List<String>, trim: Boolean = true, ignoreCase: Bo
  * to `Frieren - Beyond Journey’s End - S01E21`
  */
 fun String.toFileSystemCompliantName(): String {
-    return if (isWindows()) {
+    return if (isWindows) {
         this.replace(":", " -").replaceAll("", "<", ">", "\"", "/", "\\", "|", "?", "*")
     } else {
         this.replace(":", " -").replace("/", "")
