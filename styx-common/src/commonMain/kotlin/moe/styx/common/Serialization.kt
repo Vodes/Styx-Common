@@ -9,3 +9,7 @@ val json = Json {
     isLenient = true
     explicitNulls = true
 }
+
+val prettyPrintJson = Json(json) {
+    prettyPrint = true
+}
