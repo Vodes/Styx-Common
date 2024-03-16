@@ -16,7 +16,7 @@ fun <T> MutableList<T>.replaceIfNotNull(toReplace: T?, replaceWith: T): MutableL
     return this
 }
 
-fun List<String>.anyEquals(value: String, ignoreCase: Boolean = true, trim: Boolean = false): Boolean {
+fun Collection<String>.anyEquals(value: String, ignoreCase: Boolean = true, trim: Boolean = false): Boolean {
     for (element in this) {
         val trimmed = if (trim) element.trim() else element
         if (trimmed.equals(if (trim) value.trim() else value, ignoreCase))
@@ -25,7 +25,7 @@ fun List<String>.anyEquals(value: String, ignoreCase: Boolean = true, trim: Bool
     return false
 }
 
-fun List<String>.containsIgnoreCase(value: String, trim: Boolean = true): Boolean {
+fun Collection<String>.containsIgnoreCase(value: String, trim: Boolean = true): Boolean {
     for (element in this) {
         val trimmed = if (trim) element.trim() else element
         if (trimmed.contains(if (trim) value.trim() else value, true))
