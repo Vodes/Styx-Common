@@ -33,6 +33,7 @@ kotlin {
                 api(libs.kotlin.serialization.json)
                 api(libs.kotlinx.datetime)
                 api(libs.kotlinx.coroutines.core)
+                api(libs.okio)
 
                 implementation(libs.ktor.client.contentNegotiation)
                 implementation(libs.ktor.client.serialization.json)
@@ -52,7 +53,7 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation(libs.ktor.client.java)
+                implementation(libs.ktor.client.okhttp)
             }
         }
     }
