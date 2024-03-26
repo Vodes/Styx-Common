@@ -1,10 +1,10 @@
 package moe.styx.common.http
 
 import io.ktor.client.*
-import io.ktor.client.engine.java.*
+import io.ktor.client.engine.okhttp.*
 
 actual fun getNativeClient(block: HttpClientConfig<*>.() -> Unit): HttpClient {
-    return HttpClient(Java) {
+    return HttpClient(OkHttp) {
         block()
     }
 }
