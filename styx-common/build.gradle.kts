@@ -11,14 +11,14 @@ version = "0.1.0"
 kotlin {
     applyDefaultHierarchyTemplate()
     jvm {
-        jvmToolchain(11)
+        jvmToolchain(17)
         withSourcesJar()
     }
     androidTarget {
         publishLibraryVariants("release")
         compilations.all {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "17"
             }
         }
     }
