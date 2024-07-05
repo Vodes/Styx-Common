@@ -1,6 +1,5 @@
 *.iml
 .gradle
-.kotlin
 .idea/*.xml
 .idea/artifacts
 !.idea/codeStyles/
