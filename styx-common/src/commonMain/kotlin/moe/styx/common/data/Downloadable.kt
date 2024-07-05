@@ -1,5 +1,8 @@
 package moe.styx.common.data
 
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import moe.styx.common.extension.eqI
 
@@ -81,7 +84,7 @@ data class DownloadableOption(
 data class DownloaderTarget(
     val mediaID: String,
     var options: MutableList<DownloadableOption> = mutableListOf(),
-    val namingTemplate: String = "%group_b% %english% - S01%ep_e%",
+    val namingTemplate: String = "%group_b% %english% - S01%ep_e% (CR WEB-DL 1080p)",
     val titleTemplate: String = "%english% - S01%ep_e%",
-    val outputDir: String = "/var/Anime/2024/%english%"
+    val outputDir: String = "/var/Anime/${Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).year}/%english%"
 )
