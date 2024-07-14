@@ -10,6 +10,7 @@ enum class SourceType {
     LOCAL,
     FTP,
     TORRENT,
+    USENET,
     XDCC
 }
 
