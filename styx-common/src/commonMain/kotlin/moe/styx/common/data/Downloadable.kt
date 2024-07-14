@@ -84,7 +84,7 @@ data class DownloadableOption(
 data class DownloaderTarget(
     val mediaID: String,
     var options: MutableList<DownloadableOption> = mutableListOf(),
-    val namingTemplate: String = "%group_b% %english% - S01%ep_e% (CR WEB-DL 1080p)",
+    val namingTemplate: String = "%group_b% %english% - S01%ep_e% (CR WEB-DL %res% %jp%)",
     val titleTemplate: String = "%english% - S01%ep_e%",
     val outputDir: String = "/var/Anime/${Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).year}/%english%"
 )
