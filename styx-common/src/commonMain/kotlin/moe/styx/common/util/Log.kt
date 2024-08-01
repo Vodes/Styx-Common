@@ -33,4 +33,6 @@ abstract class ALog {
     )
 }
 
-expect object Log : ALog
+expect val Log : ALog
+
+// expect object Log : ALog

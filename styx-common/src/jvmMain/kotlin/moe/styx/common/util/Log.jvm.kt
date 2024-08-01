@@ -3,7 +3,7 @@ package moe.styx.common.util
 import com.github.ajalt.mordant.rendering.TextColors
 import com.github.ajalt.mordant.terminal.Terminal
 
-actual object Log : ALog() {
+private object LogImpl : ALog() {
     private val terminal = Terminal()
 
     private fun prefixColorFromPrefix(prefix: String): TextColors? {
@@ -36,3 +36,6 @@ actual object Log : ALog() {
             exception?.printStackTrace()
     }
 }
+
+actual val Log: ALog
+    get() = LogImpl

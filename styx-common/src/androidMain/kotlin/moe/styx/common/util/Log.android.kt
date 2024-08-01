@@ -2,7 +2,7 @@ package moe.styx.common.util
 
 import android.util.Log as AndroidLog
 
-actual object Log : ALog() {
+private object LogImpl : ALog() {
     override fun printMsg(message: String, prefix: String, source: String?, exception: Throwable?, printStack: Boolean) {
         when (prefix) {
             "I" -> AndroidLog.i(source ?: "Styx", message, exception)
@@ -15,3 +15,6 @@ actual object Log : ALog() {
             exception?.printStackTrace()
     }
 }
+
+actual val Log: ALog
+    get() = LogImpl

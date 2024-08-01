@@ -1,6 +1,6 @@
 package moe.styx.common.util
 
-actual object Log : ALog() {
+private object LogImpl : ALog() {
     override fun printMsg(message: String, prefix: String, source: String?, exception: Throwable?, printStack: Boolean) {
         val fallback = if (message.isBlank() && exception != null) "Exception: ${exception.message}" else message
         var msg = "${getFormattedTime()} - [$prefix] - $fallback"
@@ -15,3 +15,6 @@ actual object Log : ALog() {
             exception?.printStackTrace()
     }
 }
+
+actual val Log: ALog
+    get() = LogImpl
