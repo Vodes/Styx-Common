@@ -6,22 +6,13 @@ plugins {
 }
 
 group = "moe.styx"
-version = "0.1.3"
+version = "0.1.4"
 
 kotlin {
     applyDefaultHierarchyTemplate()
-    jvm {
-        jvmToolchain(17)
-        withSourcesJar()
-    }
-    androidTarget {
-        publishLibraryVariants("release")
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
-        }
-    }
+    jvmToolchain(17)
+    jvm { withSourcesJar() }
+    androidTarget { publishLibraryVariants("release") }
     iosX64()
     iosArm64()
     iosSimulatorArm64()

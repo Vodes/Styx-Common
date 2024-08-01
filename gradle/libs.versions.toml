@@ -1,15 +1,15 @@
 [versions]
 android-minSdk = "27"
-android-compileSdk = "34"
+android-compileSdk = "35"
 agp = "8.2.2"
-kotlin = "1.9.23"
-serialization-json = "1.6.3"
+kotlin = "2.0.0"
+serialization-json = "1.7.0"
 ktor = "2.3.12"
 datetime = "0.6.0"
 coroutines = "1.8.0"
 string-similarity = "0.1.0"
 okio = "3.9.0"
-mordant = "2.6.0"
+mordant = "2.7.2"
 
 
 [libraries]
