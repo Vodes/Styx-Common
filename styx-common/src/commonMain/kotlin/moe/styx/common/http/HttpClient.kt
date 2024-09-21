@@ -10,7 +10,7 @@ import io.ktor.client.request.*
 import io.ktor.client.utils.*
 import io.ktor.http.*
 import io.ktor.utils.io.*
-import io.ktor.utils.io.core.*
+import kotlinx.io.readByteArray
 import moe.styx.common.json
 import moe.styx.common.util.Log
 import moe.styx.common.util.SYSTEMFILES
@@ -53,7 +53,8 @@ suspend fun downloadFileStream(url: String, outputPath: Path, progressCallback: 
     val result = runCatching {
         httpClient.prepareGet(url) {
             onDownload { bytesSentTotal, contentLength ->
-                progressCallback((bytesSentTotal * 100f / contentLength).roundToInt())
+                if (contentLength != null)
+                    progressCallback((bytesSentTotal * 100f / contentLength).roundToInt())
             }
         }.execute { resp ->
             if (!resp.status.isSuccess()) {
@@ -64,8 +65,8 @@ suspend fun downloadFileStream(url: String, outputPath: Path, progressCallback: 
             SYSTEMFILES.write(outputPath) {
                 while (!channel.isClosedForRead) {
                     val packet = channel.readRemaining(DEFAULT_HTTP_BUFFER_SIZE.toLong())
-                    while (packet.isNotEmpty) {
-                        val bytes = packet.readBytes()
+                    while (!packet.exhausted()) {
+                        val bytes = packet.readByteArray()
                         write(bytes)
                     }
                 }
