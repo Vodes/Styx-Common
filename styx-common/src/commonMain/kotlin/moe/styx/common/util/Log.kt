@@ -6,6 +6,7 @@ import kotlinx.datetime.toLocalDateTime
 import moe.styx.common.extension.formattedStr
 
 abstract class ALog {
+    var debugEnabled = false
     internal fun getFormattedTime() = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).formattedStr()
 
     fun i(source: String? = null, message: () -> String) {
@@ -17,6 +18,8 @@ abstract class ALog {
     }
 
     fun d(source: String? = null, message: () -> String) {
+        if (!debugEnabled)
+            return
         printMsg(message(), "D", source)
     }
 
@@ -33,6 +36,4 @@ abstract class ALog {
     )
 }
 
-expect val Log : ALog
-
-// expect object Log : ALog
+expect val Log: ALog
