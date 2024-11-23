@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "moe.styx"
-version = "0.3.2"
+version = "0.4.0-SNAPSHOT1"
 
 kotlin {
     applyDefaultHierarchyTemplate()
@@ -25,6 +25,7 @@ kotlin {
                 api(libs.kotlinx.datetime)
                 api(libs.kotlinx.coroutines.core)
                 api(libs.okio)
+                api(libs.tomlkt)
 
                 implementation(libs.ktor.client.contentNegotiation)
                 implementation(libs.ktor.client.serialization.json)

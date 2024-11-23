@@ -14,3 +14,4 @@ enum class Platform {
 internal expect fun Platform.Companion.currentPlatform(): Platform
 
 expect val isWindows: Boolean
+expect val isDocker: Boolean
