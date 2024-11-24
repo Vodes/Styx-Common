@@ -79,6 +79,13 @@ data class UnifiedConfig(
                 }
                 return _current!!
             }
+
+        fun updateConfig(update: (UnifiedConfig) -> UnifiedConfig) {
+            val updated = update(current)
+            _current = updated
+            configFile.writeText(toml.encodeToString(updated))
+            lastUpdated = currentUnixSeconds() + 1
+        }
     }
 }
 
@@ -199,15 +206,18 @@ data class DiscordConfig(
     )
     private val announcementWebhookURL: String = "",
 
-    // TODO: What do here? My instance always had a message...
-    // Maybe allow a channel link and make the downloader replace it in the config after?
     @TomlComment(
         """
         Used by styx-dl to show the current schedule in a message.
+        If this is a channel URL it will post a new message in that channel and update the config accordingly.
         Will prefer 'DISCORD_SCHEDULE_MSG' env variable if any.
         """
     )
-    private val scheduleMessageURL: String = ""
+    private val scheduleMessageURL: String = "",
+    @TomlComment("Client ID used for authentication. Will prefer 'DISCORD_CLIENT_ID' env variable if any.")
+    private val discordClientID: String = "",
+    @TomlComment("Client Secret used for authentication. Will prefer 'DISCORD_CLIENT_SECRET' env variable if any.")
+    private val discordClientSecret: String = ""
 ) {
     fun botToken(): String = getEnvString("DISCORD_TOKEN", botToken)
     fun logChannelURL(): String = getEnvString("LOG_CHANNEL_URL", logChannelURL)
@@ -216,6 +226,8 @@ data class DiscordConfig(
     fun announcementDmRole(): String = getEnvString("DISCORD_DM_ROLE", announcementDmRole)
     fun announcementWebhookURL(): String = getEnvString("DISCORD_WEBHOOK", announcementWebhookURL)
     fun scheduleMessageURL(): String = getEnvString("DISCORD_SCHEDULE_MSG", scheduleMessageURL)
+    fun discordClientID(): String = getEnvString("DISCORD_CLIENT_ID", discordClientID)
+    fun discordClientSecret(): String = getEnvString("DISCORD_CLIENT_SECRET", discordClientSecret)
 }
 
 @Serializable
