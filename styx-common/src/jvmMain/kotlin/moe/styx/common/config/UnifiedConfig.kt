@@ -248,7 +248,14 @@ data class APIConfig(
         Just plain text and each line is a separate secret.
     """
     )
-    val enableSecretsCheck: Boolean = true
+    val enableSecretsCheck: Boolean = true,
+    @TomlComment(
+        """
+        Nginx Access Log file used for traffic logging. Leaving this empty just disables the functionality.
+        Needs to be readable and writeable so keep your permissions in mind.
+    """
+    )
+    val nginxLogFile: String = "",
 ) {
     fun serveHost(): String {
         if (serveHost.isNotBlank()) return serveHost
