@@ -1,6 +1,7 @@
 package moe.styx.common.data
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 data class Media(
@@ -23,7 +24,8 @@ data class Image(
 data class MediaEntry(
     val GUID: String, val mediaID: String, val timestamp: Long, val entryNumber: String,
     val nameEN: String?, val nameDE: String?, val synopsisEN: String?, val synopsisDE: String?,
-    val thumbID: String?, val filePath: String, val fileSize: Long, val originalName: String?
+    val thumbID: String?, val filePath: String, val fileSize: Long, val originalName: String?,
+    @Transient val originalParentFolder: String? = null
 )
 
 @Serializable
