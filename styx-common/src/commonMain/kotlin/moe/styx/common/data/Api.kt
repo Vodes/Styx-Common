@@ -6,6 +6,9 @@ import kotlinx.serialization.Serializable
 data class Changes(val media: Long, val entry: Long)
 
 @Serializable
+data class APIState(val lastUpdatedTraffic: Long)
+
+@Serializable
 data class LoginResponse(
     val name: String, val userID: String, val permissions: Int, val accessToken: String, val watchToken: String,
     val tokenExpiry: Long, val refreshToken: String? = null

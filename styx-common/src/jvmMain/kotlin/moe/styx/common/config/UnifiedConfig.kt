@@ -252,7 +252,7 @@ data class APIConfig(
     @TomlComment(
         """
         Nginx Access Log file used for traffic logging. Leaving this empty just disables the functionality.
-        Needs to be readable and writeable so keep your permissions in mind.
+        Recommended to create a separate one and filter it to /watch routes to not parse too much useless data.
     """
     )
     val nginxLogFile: String = "",
