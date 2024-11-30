@@ -1,7 +1,10 @@
 package moe.styx.common.config
 
+import com.akuleshov7.ktoml.Toml
+import com.akuleshov7.ktoml.TomlInputConfig
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import moe.styx.common.extension.currentUnixSeconds
 import moe.styx.common.isDocker
@@ -11,12 +14,15 @@ import moe.styx.common.util.Log
 import moe.styx.common.util.getEnvBool
 import moe.styx.common.util.getEnvString
 import net.peanuuutz.tomlkt.TomlComment
-import net.peanuuutz.tomlkt.decodeFromString
 import java.io.File
 import kotlin.system.exitProcess
 
+val ktoml = Toml(TomlInputConfig(true))
+
 @Serializable
 data class UnifiedConfig(
+    @TomlComment("Enable or disable debug logging. Will prefer 'DEBUG' env variable if any.")
+    private val debug: Boolean = false,
     @SerialName("General")
     val base: BaseConfig = BaseConfig(),
     @SerialName("Database-Config")
@@ -30,6 +36,8 @@ data class UnifiedConfig(
     @SerialName("Downloader-Config")
     val dlConfig: DownloaderConfig = DownloaderConfig()
 ) {
+    fun debug() = getEnvBool("DEBUG", debug)
+
     companion object {
         private val configDir: File by lazy {
             if (isDocker)
@@ -74,7 +82,7 @@ data class UnifiedConfig(
                 }
                 val wasChanged = configFile.exists() && (configFile.lastModified() / 1000).toInt() > lastUpdated
                 if (_current == null || lastUpdated < (now - 600) || wasChanged) {
-                    _current = toml.decodeFromString(configFile.readText())
+                    _current = ktoml.decodeFromString<UnifiedConfig>(configFile.readText())
                     lastUpdated = now
                 }
                 return _current!!
@@ -91,9 +99,6 @@ data class UnifiedConfig(
 
 @Serializable
 data class BaseConfig(
-    @TomlComment("Enable or disable debug logging. Will prefer 'DEBUG' env variable if any.")
-    private val debug: Boolean = false,
-
     @TomlComment("Base URL for styx-web. Will prefer 'BASE_URL' env variable if any.")
     private val siteBaseURL: String = "https://example.com",
 
@@ -126,7 +131,6 @@ data class BaseConfig(
     @TomlComment("themoviedb.org API Token. Will prefer 'TMDB_TOKEN' env variable if any.")
     private val tmdbToken: String = ""
 ) {
-    fun debug() = getEnvBool("DEBUG", debug)
     fun siteBaseURL() = getEnvString("BASE_URL", siteBaseURL).removeSuffix("/")
     fun imageBaseURL() = getEnvString("IMAGE_URL", imageBaseURL).removeSuffix("/")
     fun apiBaseURL() = getEnvString("API_BASE_URL", apiBaseURL).removeSuffix("/")
