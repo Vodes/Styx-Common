@@ -74,3 +74,10 @@ data class ActiveUser(
     val mediaActivity: MediaActivity? = null,
     val listeningTo: String? = null
 )
+
+@Serializable
+data class ProxyServer(
+    val name: String,
+    val baseURL: String,
+    val country: String,
+)
