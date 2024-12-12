@@ -177,6 +177,13 @@ data class DiscordConfig(
     )
     private val logChannelURL: String = "",
 
+    @TomlComment("""
+        Webhook for the logs channel.
+        Since we ideally do not want 3 processes all on one bot token.
+        Will prefer 'LOG_CHANNEL_WEBHOOK_URL' env variable if any.
+    """)
+    private val logWebhookURL: String = "",
+
     @TomlComment(
         """
         The channel announcements for new episodes will be posted in.
@@ -225,6 +232,7 @@ data class DiscordConfig(
 ) {
     fun botToken(): String = getEnvString("DISCORD_TOKEN", botToken)
     fun logChannelURL(): String = getEnvString("LOG_CHANNEL_URL", logChannelURL)
+    fun logChannelWebhookURL(): String = getEnvString("LOG_CHANNEL_WEBHOOK_URL", logWebhookURL)
     fun announcementChannelURL(): String = getEnvString("DISCORD_CHANNEL_URL", announcementChannelURL)
     fun announcementPingRole(): String = getEnvString("DISCORD_PING_ROLE", announcementPingRole)
     fun announcementDmRole(): String = getEnvString("DISCORD_DM_ROLE", announcementDmRole)
