@@ -1,10 +1,8 @@
 *.iml
 .gradle
-.idea/*.xml
-.idea/artifacts
-!.idea/codeStyles/
 .DS_Store
 .kotlin
+.idea
 build
 captures
 .externalNativeBuild
