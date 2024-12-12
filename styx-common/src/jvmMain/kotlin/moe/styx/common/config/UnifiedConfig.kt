@@ -1,7 +1,5 @@
 package moe.styx.common.config
 
-import com.akuleshov7.ktoml.Toml
-import com.akuleshov7.ktoml.TomlInputConfig
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -16,8 +14,6 @@ import moe.styx.common.util.getEnvString
 import net.peanuuutz.tomlkt.TomlComment
 import java.io.File
 import kotlin.system.exitProcess
-
-val ktoml = Toml(TomlInputConfig(true))
 
 @Serializable
 data class UnifiedConfig(
@@ -82,7 +78,7 @@ data class UnifiedConfig(
                 }
                 val wasChanged = configFile.exists() && (configFile.lastModified() / 1000).toInt() > lastUpdated
                 if (_current == null || lastUpdated < (now - 600) || wasChanged) {
-                    _current = ktoml.decodeFromString<UnifiedConfig>(configFile.readText())
+                    _current = toml.decodeFromString<UnifiedConfig>(configFile.readText())
                     lastUpdated = now
                 }
                 return _current!!
