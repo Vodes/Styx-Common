@@ -58,7 +58,7 @@ data class TmdbGroupQuery(val id: Int, val results: List<TmdbGroupQueryResult>?)
 @Serializable
 data class TmdbEpisode(
     @SerialName("air_date")
-    val airDate: String,
+    val airDate: String?,
     @SerialName("episode_number")
     val episodeNumber: Int,
     val id: Int,

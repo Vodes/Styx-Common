@@ -21,7 +21,7 @@ enum class SourceType {
  * Most if not all of these options are done through an external muxtools script.
  *
  * @param keepVideoOfPrevious   Keep video of previous source and discard the new video
- * @param keepAudioOfPrevious   Keep audio of previous source and discard the new audio
+ * @param keepAudioOfPrevious   Keep audio of previous source if new source doesn't have the languages
  * @param keepBetterAudio       Automatically determine better audio and use whatever it is
  * @param manualAudioSync       Delay to apply to audio in ms
  * @param manualSubSync         Delay to apply to subtitles in ms
@@ -33,6 +33,11 @@ enum class SourceType {
  * @param tppStyles             What styles to apply tpp to
  * @param restyleSubs           Restyle subs to the GJM Gandhi Preset
  * @param fixTagging            Apply tag fixing for various fuckups some groups might do
+ * @param subLanguages          Subtitle languages to process and/or keep if removal is enabled.
+ *                              Comma-separated list of ISO-639 language codes.
+ * @param audioLanguages        Audio languages to keep if removal is enabled.
+ *                              Comma-separated list of ISO-639 language codes.
+ * @param removeUnnecessary     Remove all audio and subtitle tracks that are not specified in audio-/subLanguages.
  * */
 data class ProcessingOptions(
     val keepVideoOfPrevious: Boolean = false,
@@ -48,6 +53,9 @@ data class ProcessingOptions(
     val tppStyles: String = "default,main,alt,flashback,top,italic",
     val restyleSubs: Boolean = false,
     val fixTagging: Boolean = true,
+    val subLanguages: String = "de,en",
+    val audioLanguages: String = "de,en,ja",
+    val removeUnnecessary: Boolean = true,
 )
 
 @Serializable
