@@ -1,6 +1,7 @@
 package moe.styx.common.data
 
 import kotlinx.serialization.Serializable
+import moe.styx.common.extension.currentUnixSeconds
 
 @Serializable
 data class User(
@@ -20,11 +21,12 @@ data class UnregisteredDevice(val GUID: String, val deviceInfo: DeviceInfo, val 
 @Serializable
 data class Device(
     var GUID: String, var userID: String, var name: String, var deviceInfo: DeviceInfo,
-    var lastUsed: Long, var accessToken: String, var watchToken: String, var refreshToken: String, var tokenExpiry: Long
+    var lastUsed: Long, var accessToken: String, var watchToken: String, var refreshToken: String, var tokenExpiry: Long,
+    var added: Long, var isDevDevice: Int
 )
 
 fun UnregisteredDevice.toDevice(userID: String, name: String): Device {
-    return Device(GUID, userID, name, deviceInfo, -1, "", "", "", -1)
+    return Device(GUID, userID, name, deviceInfo, -1, "", "", "", -1, currentUnixSeconds(), 0)
 }
 
 @Serializable
