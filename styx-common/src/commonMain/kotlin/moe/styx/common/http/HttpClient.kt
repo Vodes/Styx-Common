@@ -32,7 +32,6 @@ fun getHttpClient(userAgent: String? = null): HttpClient {
         install(ContentNegotiation) {
             json
         }
-        install(ContentEncoding)
         install(HttpCookies)
     }
     return initializedHttpClient as HttpClient

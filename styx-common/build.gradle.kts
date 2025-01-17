@@ -36,6 +36,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
+                implementation(libs.ktor.zstd)
             }
         }
         val iosMain by getting {
@@ -47,6 +48,7 @@ kotlin {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.jvm.mordant)
+                implementation(libs.ktor.zstd)
             }
         }
     }
