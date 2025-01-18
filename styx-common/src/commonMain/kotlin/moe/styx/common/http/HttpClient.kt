@@ -33,6 +33,11 @@ fun getHttpClient(userAgent: String? = null): HttpClient {
             json
         }
         install(HttpCookies)
+        install(HttpRequestRetry) {
+            maxRetries = 2
+            delayMillis(true) { 500 }
+            retryOnException(2, false)
+        }
     }
     return initializedHttpClient as HttpClient
 }
