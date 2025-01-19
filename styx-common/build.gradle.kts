@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "moe.styx"
-version = "0.4.10"
+version = "0.4.11"
 
 kotlin {
     applyDefaultHierarchyTemplate()
