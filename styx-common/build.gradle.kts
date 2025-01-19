@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "moe.styx"
-version = "0.4.11"
+version = "0.4.12"
 
 kotlin {
     applyDefaultHierarchyTemplate()
@@ -36,7 +36,6 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
-                api(libs.ktor.zstd)
             }
         }
         val iosMain by getting {
@@ -48,7 +47,6 @@ kotlin {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.jvm.mordant)
-                api(libs.ktor.zstd)
             }
         }
     }
