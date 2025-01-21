@@ -3,7 +3,6 @@ package moe.styx.common.http
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
-import io.ktor.client.plugins.compression.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.cookies.*
 import io.ktor.client.request.*
@@ -22,8 +21,8 @@ private var initializedHttpClient: HttpClient? = null
 val httpClient: HttpClient
     get() = initializedHttpClient ?: getHttpClient()
 
-fun getHttpClient(userAgent: String? = null): HttpClient {
-    initializedHttpClient = getNativeClient {
+fun getHttpClient(userAgent: String? = null, enableZstd: Boolean = false): HttpClient {
+    initializedHttpClient = getNativeClient(enableZstd) {
         if (!userAgent.isNullOrBlank())
             install(UserAgent) {
                 agent = userAgent
@@ -84,4 +83,4 @@ suspend fun downloadFileStream(url: String, outputPath: Path, progressCallback: 
     return result.getOrNull() ?: DownloadResult.FailedUnknown
 }
 
-expect fun getNativeClient(block: HttpClientConfig<*>.() -> Unit = {}): HttpClient
+expect fun getNativeClient(enableZstd: Boolean = false, block: HttpClientConfig<*>.() -> Unit = {}): HttpClient
