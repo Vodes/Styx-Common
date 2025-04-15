@@ -6,8 +6,11 @@ import moe.styx.common.extension.currentUnixSeconds
 @Serializable
 data class User(
     val GUID: String, var name: String, var discordID: String, val added: Long, var lastLogin: Long,
-    var permissions: Int
+    var permissions: Int, var anilistData: AnilistData? = null
 )
+
+@Serializable
+data class AnilistData(val accessToken: String, val refreshToken: String, val tokenExpiry: Long, val userName: String)
 
 @Serializable
 data class DeviceInfo(
