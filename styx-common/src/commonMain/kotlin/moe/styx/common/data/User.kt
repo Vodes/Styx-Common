@@ -10,7 +10,7 @@ data class User(
 )
 
 @Serializable
-data class AnilistData(val accessToken: String, val refreshToken: String, val tokenExpiry: Long, val userName: String)
+data class AnilistData(val accessToken: String, val refreshToken: String, val tokenExpiry: Long, val userName: String, val userID: Int)
 
 @Serializable
 data class DeviceInfo(
