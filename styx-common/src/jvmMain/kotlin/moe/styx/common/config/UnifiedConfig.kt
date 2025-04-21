@@ -173,11 +173,13 @@ data class DiscordConfig(
     )
     private val logChannelURL: String = "",
 
-    @TomlComment("""
+    @TomlComment(
+        """
         Webhook for the logs channel.
         Since we ideally do not want 3 processes all on one bot token.
         Will prefer 'LOG_CHANNEL_WEBHOOK_URL' env variable if any.
-    """)
+    """
+    )
     private val logWebhookURL: String = "",
 
     @TomlComment(
@@ -283,7 +285,11 @@ data class WebConfig(
     @TomlComment("Port to bind for styx-web.")
     val servePort: Int = 8080,
     @TomlComment("Discord Auth Token to be used, essentially skipping login. DO NOT USE ON PUBLICLY HOSTED INSTANCES.")
-    val debugAuthToken: String = ""
+    val debugAuthToken: String = "",
+    @TomlComment("Client ID of your Anilist Dev Application")
+    val anilistClientID: String = "",
+    @TomlComment("Client secret of your Anilist Dev Application")
+    val anilistClientSecret: String = "",
 ) {
     fun serveHost(): String {
         if (serveHost.isNotBlank()) return serveHost
