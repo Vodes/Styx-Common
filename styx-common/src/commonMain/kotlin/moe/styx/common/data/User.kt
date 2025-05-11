@@ -33,6 +33,22 @@ fun UnregisteredDevice.toDevice(userID: String, name: String): Device {
 }
 
 @Serializable
+data class MediaPreferences(
+    val autoSyncEnabled: Boolean?,
+    val preferGermanSub: Boolean?,
+    val preferGermanDub: Boolean?,
+    val preferEnglishDub: Boolean?,
+    val sortEpisodesAscendingly: Boolean?,
+)
+
+@Serializable
+data class UserMediaPreferences(
+    val userID: String,
+    val mediaID: String,
+    val mediaPreferences: MediaPreferences
+)
+
+@Serializable
 data class Favourite(val mediaID: String, var userID: String, var added: Long)
 
 @Serializable
