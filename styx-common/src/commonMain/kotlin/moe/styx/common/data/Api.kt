@@ -11,7 +11,7 @@ data class APIState(val lastUpdatedTraffic: Long)
 @Serializable
 data class LoginResponse(
     val name: String, val userID: String, val permissions: Int, val accessToken: String, val watchToken: String,
-    val tokenExpiry: Long, val refreshToken: String? = null, val anilistData: AnilistData? = null
+    val tokenExpiry: Long, val refreshToken: String? = null, val anilistData: AnilistData? = null, val malData: MyAnimeListData? = null
 )
 
 @Serializable
