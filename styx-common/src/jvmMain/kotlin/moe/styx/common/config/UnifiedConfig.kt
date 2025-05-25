@@ -290,6 +290,10 @@ data class WebConfig(
     val anilistClientID: String = "",
     @TomlComment("Client secret of your Anilist Dev Application")
     val anilistClientSecret: String = "",
+    @TomlComment("Client ID of your MyAnimeList Dev Application")
+    val malClientID: String = "",
+    @TomlComment("Client secret of your MyAnimeList Dev Application. This might be optional if I'm understanding the MAL docs correctly.")
+    val malClientSecret: String = "",
 ) {
     fun serveHost(): String {
         if (serveHost.isNotBlank()) return serveHost
