@@ -1,7 +1,7 @@
 [versions]
 android-minSdk = "27"
 android-compileSdk = "36"
-agp = "8.7.3"
+agp = "8.9.1"
 kotlin = "2.3.20"
 serialization-json = "1.10.0"
 ktor = "3.4.2"
