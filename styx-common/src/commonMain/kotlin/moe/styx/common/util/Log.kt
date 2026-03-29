@@ -1,9 +1,9 @@
 package moe.styx.common.util
 
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import moe.styx.common.extension.formattedStr
+import kotlin.time.Clock
 
 abstract class ALog {
     var debugEnabled = false

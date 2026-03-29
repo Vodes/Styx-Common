@@ -1,10 +1,10 @@
 package moe.styx.common.data
 
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import moe.styx.common.extension.eqI
+import kotlin.time.Clock
 
 enum class SourceType {
     LOCAL,
