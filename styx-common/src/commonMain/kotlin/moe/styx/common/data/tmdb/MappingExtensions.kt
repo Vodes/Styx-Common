@@ -32,6 +32,8 @@ fun Media.getFirstTMDBSeason(): Int? {
     return mappingJson.tmdbMappings.minByOrNull { it.seasonEntry }?.seasonEntry
 }
 
+data class SplitMappings<out T : IMapping>(val fallback: T?, val rangeMappings: List<T>, val epMappings: List<T>)
+
 /**
  * Sanitizes and splits mappings into something usable for actual episode selection later on.
  *
@@ -40,7 +42,7 @@ fun Media.getFirstTMDBSeason(): Int? {
  * @return A Triple of fallback-mapping (can be null), list of range mappings and list of episode specific mappings.
  *         Can be null if no Mappings exist.
  */
-inline fun <reified T : IMapping> MappingCollection.sanitizeMappings(type: StackType = StackType.TMDB): Triple<T?, List<T>, List<T>>? {
+inline fun <reified T : IMapping> MappingCollection.sanitizeMappings(type: StackType): SplitMappings<T>? {
     val mappings = when (type) {
         StackType.TMDB -> this.tmdbMappings
         StackType.ANILIST -> this.anilistMappings
@@ -83,16 +85,26 @@ inline fun <reified T : IMapping> MappingCollection.sanitizeMappings(type: Stack
         Log.e(null, it) { "Failed to cast ep mappings to requested data type." }
     }.getOrNull() ?: return null
 
-    return Triple(castedFallbackMapping, castedRangeMappings, castedEPRangeMappings)
+    return SplitMappings(castedFallbackMapping, castedRangeMappings, castedEPRangeMappings)
 }
 
+/**
+ * Get the best possible matching Mapping for an episode.
+ *
+ * In priority of episode-specific > range > fallback.
+ *
+ * @param episode Episode number as string. Should be something that can be parsed as a double.
+ * @param type Type of mappings to work with.
+ * @param allowZero Whether to allow an episode 0. This may be interesting to disable for movies and/or specials.
+ *
+ * @return Returns a fitting match among the mappings if any.
+ */
 inline fun <reified T : IMapping> MappingCollection.getMappingForEpisode(
     episode: String,
-    type: StackType = StackType.TMDB,
+    type: StackType,
     allowZero: Boolean = true
 ): T? {
     val mappings = sanitizeMappings<T>(type) ?: return null
-    val (fallback, rangeMappings, epMappings) = mappings
 
     val epNumber = (episode.toDoubleOrNull() ?: -1.0).let {
         if (!allowZero && it == 0.0)
@@ -100,10 +112,10 @@ inline fun <reified T : IMapping> MappingCollection.getMappingForEpisode(
         else it
     }
 
-    var match = epMappings.find { it.matchFrom == epNumber }
+    var match = mappings.epMappings.find { it.matchFrom == epNumber }
     if (match == null) {
-        match = rangeMappings.find { epNumber >= it.matchFrom && epNumber <= it.matchUntil }
+        match = mappings.rangeMappings.find { epNumber >= it.matchFrom && epNumber <= it.matchUntil }
     }
 
-    return match ?: fallback
+    return match ?: mappings.fallback
 }
