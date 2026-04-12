@@ -14,6 +14,23 @@ enum class SourceType {
     XDCC
 }
 
+enum class TokenTarget {
+    BOTH,
+    FILE,
+    RSS
+}
+
+enum class TokenMatchType {
+    ALL,
+    ANY,
+    NONE
+}
+
+enum class TokenMatchMethod {
+    CONTAINS,
+    REGEX
+}
+
 
 @Serializable
 /**
@@ -58,10 +75,19 @@ data class ProcessingOptions(
     val removeUnnecessary: Boolean = true,
 )
 
+
+@Serializable
+data class TokenGroup(
+    val tokens: List<String> = emptyList(),
+    val method: TokenMatchMethod = TokenMatchMethod.CONTAINS,
+    val matchType: TokenMatchType = TokenMatchType.ANY,
+    val target: TokenTarget = TokenTarget.BOTH,
+)
+
 @Serializable
 data class DownloadableOption(
     val priority: Int = 0,
-    val fileRegex: String,
+    val fileRegex: String = "",
     val source: SourceType = SourceType.LOCAL,
     val rssRegex: String? = null,
     val sourcePath: String? = null,
@@ -74,18 +100,22 @@ data class DownloadableOption(
     val overrideNamingTemplate: String? = null,
     val overrideTitleTemplate: String? = null,
     val processingOptions: ProcessingOptions? = null,
-    val commandAfter: String? = null
+    val commandAfter: String? = null,
+    val useTokens: Boolean = false,
+    val tokenGroups: List<TokenGroup> = emptyList(),
 ) {
     override fun equals(other: Any?): Boolean {
         if (other !is DownloadableOption)
             return super.equals(other)
-        return priority == other.priority && fileRegex eqI other.fileRegex
+        return priority == other.priority && fileRegex eqI other.fileRegex && useTokens == other.useTokens && tokenGroups == other.tokenGroups
     }
 
     override fun hashCode(): Int {
         var result = priority
         result = 31 * result + fileRegex.hashCode()
         result = 31 * result + source.hashCode()
+        result = 31 * result + useTokens.hashCode()
+        result = 31 * result + tokenGroups.hashCode()
         return result
     }
 }
