@@ -31,7 +31,36 @@ fun Media.getFirstTMDBSeason(): Int? {
     return mappingJson.tmdbMappings.minByOrNull { it.seasonEntry }?.seasonEntry
 }
 
-data class SplitMappings<out T : IMapping>(val fallback: T?, val rangeMappings: List<T>, val epMappings: List<T>)
+data class SplitMappings<out T : IMapping>(val fallback: T?, val rangeMappings: List<T>, val epMappings: List<T>) {
+
+    /**
+     * Get the best possible matching Mapping for an episode.
+     *
+     * In priority of episode-specific > range > fallback.
+     *
+     * @param episode Episode number as string. Should be something that can be parsed as a double.
+     * @param allowZero Whether to allow an episode 0. This may be interesting to disable for movies and/or specials.
+     *
+     * @return Returns a fitting match among the mappings if any.
+     */
+    fun getMappingForEpisode(
+        episode: String,
+        allowZero: Boolean = true
+    ): T? {
+        val epNumber = (episode.toDoubleOrNull() ?: -1.0).let {
+            if (!allowZero && it == 0.0)
+                1.0
+            else it
+        }
+
+        var match = epMappings.find { it.matchFrom == epNumber }
+        if (match == null) {
+            match = rangeMappings.find { epNumber >= it.matchFrom && epNumber <= it.matchUntil }
+        }
+
+        return match ?: fallback
+    }
+}
 
 /**
  * Sanitizes and splits mappings into something usable for actual episode selection later on.
@@ -101,17 +130,5 @@ inline fun <reified T : IMapping> MappingCollection.getMappingForEpisode(
     allowZero: Boolean = true
 ): T? {
     val mappings = sanitizeMappings<T>(type) ?: return null
-
-    val epNumber = (episode.toDoubleOrNull() ?: -1.0).let {
-        if (!allowZero && it == 0.0)
-            1.0
-        else it
-    }
-
-    var match = mappings.epMappings.find { it.matchFrom == epNumber }
-    if (match == null) {
-        match = mappings.rangeMappings.find { epNumber >= it.matchFrom && epNumber <= it.matchUntil }
-    }
-
-    return match ?: mappings.fallback
+    return mappings.getMappingForEpisode(episode, allowZero)
 }

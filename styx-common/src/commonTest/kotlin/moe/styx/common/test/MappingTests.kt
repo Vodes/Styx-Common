@@ -51,13 +51,13 @@ class MappingTests {
         val sanitizedAnilist = mappings.sanitizeMappings<BasicMapping>(StackType.ANILIST)!!
         assertEquals(-11.0, sanitizedAnilist.rangeMappings[1].offset)
 
-        var mapping = mappings.getMappingForEpisode<IMapping>("03", StackType.ANILIST)
+        var mapping: IMapping? = sanitizedAnilist.getMappingForEpisode("03")
         assertEquals(108465, mapping!!.remoteID)
 
-        mapping = mappings.getMappingForEpisode<IMapping>("12", StackType.ANILIST)
+        mapping = sanitizedAnilist.getMappingForEpisode("12")
         assertEquals(127720, mapping!!.remoteID)
 
-        mapping = mappings.getMappingForEpisode<IMapping>("17.5", StackType.ANILIST)
+        mapping = sanitizedAnilist.getMappingForEpisode("17.5")
         assertEquals(141534, mapping!!.remoteID)
         assertEquals(1.0, "17.5".toDouble() + mapping.offset)
 
