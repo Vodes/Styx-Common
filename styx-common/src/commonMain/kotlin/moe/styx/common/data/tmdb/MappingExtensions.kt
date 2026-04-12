@@ -3,7 +3,6 @@ package moe.styx.common.data.tmdb
 import moe.styx.common.data.IMapping
 import moe.styx.common.data.MappingCollection
 import moe.styx.common.data.Media
-import moe.styx.common.data.TMDBMapping
 import moe.styx.common.json
 import moe.styx.common.util.Log
 
@@ -49,9 +48,6 @@ inline fun <reified T : IMapping> MappingCollection.sanitizeMappings(type: Stack
         else -> this.malMappings
     }
     if (mappings.isEmpty()) return null
-    if (T::class == TMDBMapping::class && type != StackType.TMDB) {
-        Log.w { "You shouldn't request TMDBMapping for stacktype ${type.name}!" }
-    }
 
     // Mapping that should apply to everything that doesn't meet the requirements of the others
     val fallbackMapping = mappings.find { it.matchFrom == -1.0 && it.matchUntil == -1.0 }
@@ -77,11 +73,11 @@ inline fun <reified T : IMapping> MappingCollection.sanitizeMappings(type: Stack
         Log.e(null, it) { "Failed to cast fallback mapping \"${fallbackMapping.toString()}\" to requested data type." }
     }.getOrNull()
 
-    val castedRangeMappings = runCatching { rangeMappings.map { it as T } }.onFailure {
+    val castedRangeMappings = runCatching { rangeMappings.sortedBy { it.matchFrom }.map { it as T } }.onFailure {
         Log.e(null, it) { "Failed to cast range mappings to requested data type." }
     }.getOrNull() ?: return null
 
-    val castedEPRangeMappings = runCatching { specificEpisodeMappings.map { it as T } }.onFailure {
+    val castedEPRangeMappings = runCatching { specificEpisodeMappings.sortedBy { it.matchFrom }.map { it as T } }.onFailure {
         Log.e(null, it) { "Failed to cast ep mappings to requested data type." }
     }.getOrNull() ?: return null
 
