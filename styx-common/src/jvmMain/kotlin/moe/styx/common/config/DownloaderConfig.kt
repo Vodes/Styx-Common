@@ -2,6 +2,8 @@ package moe.styx.common.config
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import moe.styx.common.data.TokenGroup
+import moe.styx.common.data.TokenMatchType
 import net.peanuuutz.tomlkt.TomlComment
 
 @Serializable
@@ -12,6 +14,24 @@ data class DownloaderConfig(
     val defaultFTPConnectionString: String = "",
     @SerialName("RSS-Config")
     val rssConfig: RSSConfig = RSSConfig(),
+    @TomlComment(
+        """
+            Token group presets shown in the webui as templates for download options.
+            Example:
+            custom = [
+              { tokens = ["SomeGroup", "1080p"] },
+              { tokens = ["WEB-DL", "CR"], matchType = "ALL" }
+            ]
+        """
+    )
+    val tokenGroupTemplates: Map<String, List<TokenGroup>> = mapOf(
+        "WEB-DL CR 1080p" to listOf(
+            TokenGroup(
+                tokens = listOf("1080p", "CR", "WEB-DL"),
+                matchType = TokenMatchType.ALL
+            )
+        )
+    ),
     @SerialName("Torrent-Client")
     val torrentConfig: TorrentConfig = TorrentConfig(),
     @SerialName("SABnzbd-Client")
