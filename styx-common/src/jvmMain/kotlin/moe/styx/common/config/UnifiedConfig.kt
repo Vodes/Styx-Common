@@ -19,6 +19,8 @@ import kotlin.system.exitProcess
 data class UnifiedConfig(
     @TomlComment("Enable or disable debug logging. Will prefer 'DEBUG' env variable if any.")
     private val debug: Boolean = false,
+    @TomlComment("Version of the config, do not adjust manually, this may be used for migrations and regeneration.")
+    private val version: Int = -1,
     @SerialName("General")
     val base: BaseConfig = BaseConfig(),
     @SerialName("Database-Config")
@@ -35,6 +37,8 @@ data class UnifiedConfig(
     fun debug() = getEnvBool("DEBUG", debug)
 
     companion object {
+        val CURRENT_VERSION = 1
+
         private val configDir: File by lazy {
             if (isDocker)
                 File("/config")
@@ -80,9 +84,22 @@ data class UnifiedConfig(
                 if (_current == null || lastUpdated < (now - 600) || wasChanged) {
                     _current = toml.decodeFromString<UnifiedConfig>(configFile.readText())
                     lastUpdated = now
+                    checkVersion()
                 }
                 return _current!!
             }
+
+        private fun checkVersion() {
+            if (_current == null) return
+
+            if (_current!!.version < CURRENT_VERSION) {
+                // TODO: custom migrations here if necessary. This will probably be very messy in the future.
+                val updated = _current!!.copy(version = CURRENT_VERSION)
+                _current = updated
+                configFile.writeText(toml.encodeToString(updated))
+                lastUpdated = currentUnixSeconds() + 1
+            }
+        }
 
         fun updateConfig(update: (UnifiedConfig) -> UnifiedConfig) {
             val updated = update(current)

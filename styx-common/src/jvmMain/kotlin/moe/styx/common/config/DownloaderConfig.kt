@@ -18,10 +18,14 @@ data class DownloaderConfig(
         """
             Token group presets shown in the webui as templates for download options.
             Example:
-            custom = [
-              { tokens = ["SomeGroup", "1080p"] },
-              { tokens = ["WEB-DL", "CR"], matchType = "ALL" }
+            [[Downloader-Config.tokenGroupTemplates."Example-Name"]]
+            tokens = [
+                "Example",
+                "Token-Nr.2"
             ]
+            method = "CONTAINS"
+            matchType = "ALL"
+            target = "BOTH"
         """
     )
     val tokenGroupTemplates: Map<String, List<TokenGroup>> = mapOf(
