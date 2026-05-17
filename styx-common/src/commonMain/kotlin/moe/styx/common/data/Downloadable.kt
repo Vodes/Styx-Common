@@ -44,6 +44,8 @@ enum class TokenMatchMethod {
  * @param manualSubSync         Delay to apply to subtitles in ms
  * @param removeNewSubs         Remove the subs of the new source
  * @param keepSubsOfPrevious    Keep all subtitles of previous source
+ * @param keepSubsMissingLanguages
+ *                              Keep subtitle tracks of the previous source for languages the new source lacks
  * @param keepNonEnglish        Keep all non-english subtitles of previous source
  * @param sushiSubs             Automatically sync subtitles using sushi
  * @param tppSubs               Apply the Timing-Post-Processor to subtitles
@@ -64,6 +66,7 @@ data class ProcessingOptions(
     val manualSubSync: Long = 0,
     val removeNewSubs: Boolean = false,
     val keepSubsOfPrevious: Boolean = false,
+    val keepSubsMissingLanguages: Boolean = false,
     val keepNonEnglish: Boolean = false,
     val sushiSubs: Boolean = false,
     val tppSubs: Boolean = false,
