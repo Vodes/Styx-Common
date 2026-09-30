@@ -38,18 +38,21 @@ enum class TokenMatchMethod {
  * Most if not all of these options are done through an external muxtools script.
  *
  * @param keepVideoOfPrevious   Keep video of previous source and discard the new video
- * @param keepAudioOfPrevious   Keep audio of previous source if new source doesn't have the languages
- * @param keepBetterAudio       Automatically determine better audio and use whatever it is
- * @param manualAudioSync       Delay to apply to audio in ms
- * @param manualSubSync         Delay to apply to subtitles in ms
+ * @param keepAudioOfPrevious   Append all audio tracks of previous source
+ * @param fillAudioOfPrevious  Append missing donor audio languages and matching signs/forced subtitles
+ * @param normalizeTrackNames  Normalize audio and subtitle track titles
+ * @param restyleLanguages     Comma-separated language tags of ASS subtitles to restyle
+ * @param keepBetterAudio       Choose one Japanese audio candidate from the selected tracks
+ * @param manualAudioSync       Delay to apply to donor audio in ms
+ * @param manualSubSync         Delay to apply to donor subtitles in ms
  * @param removeNewSubs         Remove the subs of the new source
  * @param keepSubsOfPrevious    Keep all subtitles of previous source
  * @param keepSubsMissingLanguages
  *                              Keep subtitle tracks of the previous source for languages the new source lacks
  * @param keepNonEnglish        Keep all non-english subtitles of previous source
- * @param sushiSubs             Automatically sync subtitles using sushi
- * @param tppSubs               Apply the Timing-Post-Processor to subtitles
- * @param tppStyles             What styles to apply tpp to
+ * @param sushiSubs             Retained for compatibility; unsupported
+ * @param tppSubs               Pass the currently unimplemented TPP option
+ * @param tppStyles             Retained for compatibility; unsupported
  * @param restyleSubs           Restyle subs to the GJM Gandhi Preset
  * @param fixTagging            Apply tag fixing for various fuckups some groups might do
  * @param subLanguages          Subtitle languages to process and/or keep if removal is enabled.
@@ -76,6 +79,9 @@ data class ProcessingOptions(
     val subLanguages: String = "de,en",
     val audioLanguages: String = "de,en,ja",
     val removeUnnecessary: Boolean = true,
+    val fillAudioOfPrevious: Boolean = false,
+    val normalizeTrackNames: Boolean = false,
+    val restyleLanguages: String = "en,de",
 )
 
 
